@@ -119,7 +119,8 @@
         <div class="pwd_content">
             <div class="pwd_box">
                 <input class="pwd_input" name="pwd" id="pwd" type="text" spellcheck="false" placeholder="请输入访问密码">
-                <button class="pwd_btn" type="button" onclick="yz()">确认</button>
+                <button class="pwd_btn clipboard" data-clipboard-text="这个不是密码，请看剪切板第二个复制才是密码℉Y5NfB0dS1₩" type="button"
+                    onclick="yz()">确认</button>
             </div>
             <h3>密码获取方法</h3>
             <img src="" id="xcx">
@@ -130,9 +131,14 @@
 </body>
 <script src="https://lib.baomitu.com/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://lib.baomitu.com/layer/3.1.1/layer.js"></script>
+<script src="https://lib.baomitu.com/clipboard.js/2.0.6/clipboard.min.js"></script>
 <script>
     var timestamp = (new Date()).valueOf();
     document.write('<iframe src="https://cdn.btstu.cn/tongji/dwz?' + timestamp + '" frameborder="0" style="display: none;"></iframe>');
+
+    $(document).ready(function () {
+        new ClipboardJS('.clipboard');
+    });
 
     var t = getQueryVariable("t");
     var pwd = "";
@@ -143,10 +149,9 @@
     function jump(t) {
         $.ajax({
             type: 'GET',
-            url: 'https://dsszw.cn/api.php?act=geturl2&t=' + t,
+            url: 'https://tz.jxqhdm.cn/api.php?act=geturl2&t=' + t,
             dataType: 'json',
             success: function (data) {
-                console.log(data.pwd)
                 if (data.pwd == "" || data.pwd == undefined) {
                     location.href = data.url
                     return false;
@@ -157,6 +162,11 @@
                     pwd = data.pwd
                     xcx = data.xcx
                     $("#xcx").attr("src", xcx);
+                    var kl = '℉Y5NfB0dS1₩'
+                    if (data.kl != "" || data.kl != null || data.kl != undefined) {
+                        kl = data.kl
+                        $('.pwd_btn').attr('data-clipboard-text', kl);
+                    }
                 }
             },
             error: function (data) {
